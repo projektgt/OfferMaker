@@ -10,4 +10,6 @@
 
 @interface ViewController : UIViewController
 
+@property NSString *klobasa;
+
 @end
