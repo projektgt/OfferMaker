@@ -12,4 +12,6 @@
 
 @property NSString *klobasa;
 
+@property NSString *klobasa2;
+
 @end
