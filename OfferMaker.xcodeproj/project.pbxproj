@@ -19,6 +19,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		24347A4215A9D718000BB9F8 /* Instabus.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = Instabus.sqlite; sourceTree = "<group>"; };
 		24C1FB5B1591136D008775E9 /* OfferMaker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OfferMaker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		24C1FB5F1591136D008775E9 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		24C1FB611591136D008775E9 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -49,6 +50,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		24347A4015A9D67E000BB9F8 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				24347A4215A9D718000BB9F8 /* Instabus.sqlite */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
 		24C1FB501591136D008775E9 = {
 			isa = PBXGroup;
 			children = (
@@ -85,6 +94,7 @@
 				24C1FB741591136D008775E9 /* MainStoryboard_iPad.storyboard */,
 				24C1FB771591136D008775E9 /* ViewController.h */,
 				24C1FB781591136D008775E9 /* ViewController.m */,
+				24347A4015A9D67E000BB9F8 /* Resources */,
 				24C1FB661591136D008775E9 /* Supporting Files */,
 			);
 			path = OfferMaker;
@@ -288,6 +298,7 @@
 				24C1FB7E1591136D008775E9 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
