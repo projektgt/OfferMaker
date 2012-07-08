@@ -8,13 +8,14 @@
 
 #import "DatabaseHelper.h"
 
-static sqlite3 *database;
-
+static sqlite3 *databaseInstance;
 
 @implementation DatabaseHelper
 
-+(sqlite3 *) getInstance {
-    if (database == NULL) {
+@synthesize database;
+
+-(sqlite3 *)database {
+    if (databaseInstance == NULL) {
         sqlite3 *newDbConection;
         
         NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
@@ -22,13 +23,13 @@ static sqlite3 *database;
         NSString *path = [documentsDirectory stringByAppendingPathComponent:@"Instabus.sqlite"];
         if (sqlite3_open([path UTF8String], &newDbConection) == SQLITE_OK){
             NSLog(@"Baza uspešno odprta");
-            database = newDbConection;
+            databaseInstance = newDbConection;
         } else {
             NSLog(@"Problem pri odpiranju baze");
-            database = NULL;
+            databaseInstance = NULL;
         }
     }
     
-    return database;
+    return databaseInstance;
 }
 @end

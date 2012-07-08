@@ -19,7 +19,8 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
-    [DatabaseHelper getInstance];
+    DatabaseHelper *dbHelper = [[DatabaseHelper alloc]init];
+    [dbHelper database];
 }
 
 - (void)viewDidUnload

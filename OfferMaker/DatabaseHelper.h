@@ -11,6 +11,6 @@
 
 @interface DatabaseHelper : NSObject
 
-+(sqlite3 *)getInstance;
+@property (nonatomic) sqlite3 *database;
 
 @end
