@@ -11,6 +11,8 @@
 
 @interface DatabaseHelper : NSObject
 
-@property (nonatomic) sqlite3 *database;
+@property sqlite3 *database;
+
++ (NSArray *) query:(NSString *)text;
 
 @end
