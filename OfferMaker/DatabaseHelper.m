@@ -32,4 +32,30 @@ static sqlite3 *databaseInstance;
     
     return databaseInstance;
 }
+
++ (NSArray *) query:(NSString *)text {
+    NSMutableArray *records = [[NSMutableArray alloc]init];
+    
+    sqlite3 *db;
+    sqlite3_stmt *stmt = nil;
+    
+    const char *sqlStatement = [text cStringUsingEncoding:NSUTF8StringEncoding];
+    
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    NSString *path = [documentsDirectory stringByAppendingPathComponent:@"Instabus.sqlite"];
+    
+    
+    sqlite3_open([path UTF8String], &db);
+    sqlite3_prepare_v2(db, sqlStatement, 1, &stmt, NULL);
+    
+    while (sqlite3_step(stmt) == SQLITE_ROW) {
+        //[records addObject:sqlite3_column_value(stmt, 0)];
+    }
+    
+    sqlite3_finalize(stmt);
+    sqlite3_close(db);
+    
+    return [records copy];
+}
 @end
