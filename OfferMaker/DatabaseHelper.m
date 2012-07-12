@@ -64,9 +64,18 @@
     //Pripravimo array v katerega bomo zapisovali prebrane vrednosti stolpca
     NSMutableArray *columnItems = [[NSMutableArray alloc]initWithCapacity:columnLength];
     
+    // Preberemo imena stolpcev
+    for (int i = 0; i < columnLength; i++) {
+        [columnItems addObject:[NSString stringWithUTF8String:(char *)sqlite3_column_name(stmt, i)]];
+    }
+    
+    // Dodamo imena stolpcev v array
+    [records addObject:[columnItems copy]];
+    
     //Pregledamo vsako vrstico in stolpec v vrstici
     while (sqlite3_step(stmt) == SQLITE_ROW) {
-       
+        // Počistimo array v katerega bomo zapisovali vrednosti stolpcev
+        [columnItems removeAllObjects];
         for (int i = 0; i < columnLength; i++) {
             switch (sqlite3_column_type(stmt, i)) {
                 case SQLITE_INTEGER:
@@ -89,7 +98,12 @@
                     break;
             }
         }
+        // Dodamo immutable kopijo vrednosti stolpcev v array
+        [records addObject:[columnItems copy]];
     }
+    
+    // Pomagamo ARC-u da bo prej odstranil iz spomina??
+    columnItems = nil;
     
     sqlite3_finalize(stmt);
     sqlite3_close(db);
