@@ -61,23 +61,25 @@
     sqlite3_prepare_v2(db, sqlStatement, 1, &stmt, NULL);
     
     int columnLength = sqlite3_column_count(stmt);
+    //Pripravimo array v katerega bomo zapisovali prebrane vrednosti stolpca
+    NSMutableArray *columnItems = [[NSMutableArray alloc]initWithCapacity:columnLength];
     
     //Pregledamo vsako vrstico in stolpec v vrstici
     while (sqlite3_step(stmt) == SQLITE_ROW) {
-        NSMutableArray *columItems = [[NSMutableArray alloc]initWithCapacity:columnLength];
+       
         for (int i = 0; i < columnLength; i++) {
             switch (sqlite3_column_type(stmt, i)) {
                 case SQLITE_INTEGER:
-                    [columItems addObject:[NSNumber numberWithInt:sqlite3_column_int(stmt, i)]];
+                    [columnItems addObject:[NSNumber numberWithInt:sqlite3_column_int(stmt, i)]];
                     break;
                 case SQLITE_FLOAT:
-                    // TODO dodati v array
+                    [columnItems addObject:[NSNumber numberWithFloat:sqlite3_column_double(stmt, i)]];
                     break;
                 case SQLITE_TEXT:
-                    // TODO dodati v array
+                    [columnItems addObject:[NSString stringWithUTF8String:(char *)sqlite3_column_text(stmt, i)]];
                     break;
                 case SQLITE_BLOB:
-                    // TODO dodati v array
+                    // TODO ugotoviti kako dodati BLOB
                     break;
                 case SQLITE_NULL:
                     // TODO dodati v array
