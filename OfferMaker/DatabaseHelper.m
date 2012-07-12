@@ -13,7 +13,7 @@ NSString *dbName = @"db.sqlite";
 
 @implementation DatabaseHelper
 
--(sqlite3 *)database {
+-(BOOL)openDatabaseConnection {
     if (databaseInstance == NULL) {
         sqlite3 *newDbConection;
         
@@ -23,13 +23,14 @@ NSString *dbName = @"db.sqlite";
         if (sqlite3_open([path UTF8String], &newDbConection) == SQLITE_OK){
             NSLog(@"Baza uspešno odprta");
             databaseInstance = newDbConection;
+            return YES;
         } else {
             NSLog(@"Problem pri odpiranju baze");
             databaseInstance = NULL;
+            return NO;
         }
     }
-    
-    return databaseInstance;
+    return YES;
 }
 
 /**
