@@ -8,10 +8,10 @@
 
 #import "DatabaseHelper.h"
 
-static sqlite3 *databaseInstance;
-NSString *dbName = @"db.sqlite";
-
-@implementation DatabaseHelper
+@implementation DatabaseHelper {
+    sqlite3 *databaseInstance;
+    NSString *dbName;
+}
 
 -(BOOL)openDatabaseConnection {
     if (databaseInstance == NULL) {
