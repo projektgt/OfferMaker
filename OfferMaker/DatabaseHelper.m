@@ -58,7 +58,11 @@
     }
     
     //Pripravimo SQL stavek
-    sqlite3_prepare_v2(db, sqlStatement, 1, &stmt, NULL);
+    if (sqlite3_prepare_v2(db, sqlStatement, 1, &stmt, NULL) == NO) {
+        NSLog(@"SQLite prepare ni uspel!");
+        return nil;
+    }
+    
     
     int columnLength = sqlite3_column_count(stmt);
     //Pripravimo array v katerega bomo zapisovali prebrane vrednosti stolpca
@@ -67,6 +71,7 @@
     // Preberemo imena stolpcev
     for (int i = 0; i < columnLength; i++) {
         [columnItems addObject:[NSString stringWithUTF8String:(char *)sqlite3_column_name(stmt, i)]];
+        NSLog((NSString *)[columnItems objectAtIndex:i]);
     }
     
     // Dodamo imena stolpcev v array
@@ -77,6 +82,7 @@
         // Počistimo array v katerega bomo zapisovali vrednosti stolpcev
         [columnItems removeAllObjects];
         for (int i = 0; i < columnLength; i++) {
+            NSLog(@"SQLite column count %i", i);
             switch (sqlite3_column_type(stmt, i)) {
                 case SQLITE_INTEGER:
                     [columnItems addObject:[NSNumber numberWithInt:sqlite3_column_int(stmt, i)]];
