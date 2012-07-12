@@ -9,6 +9,7 @@
 #import "DatabaseHelper.h"
 
 static sqlite3 *databaseInstance;
+NSString *dbName = @"db.sqlite";
 
 @implementation DatabaseHelper
 
@@ -33,7 +34,15 @@ static sqlite3 *databaseInstance;
     return databaseInstance;
 }
 
-+ (NSArray *) query:(NSString *)text {
+- (id) initWithDatabaseName:(NSString *)databaseName {
+    self = [super init];
+    if ([databaseName isKindOfClass:[NSString class]] ) {
+        dbName = databaseName;
+    }
+    return self;
+}
+
+- (NSArray *) rawQuery:(NSString *)text {
     NSMutableArray *records = [[NSMutableArray alloc]init];
     
     sqlite3 *db;

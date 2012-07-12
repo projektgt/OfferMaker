@@ -13,6 +13,8 @@
 
 @property sqlite3 *database;
 
-+ (NSArray *) query:(NSString *)text;
+- (id) initWithDatabaseName:(NSString *) databaseName;
+
+- (NSArray *) rawQuery:(NSString *)text;
 
 @end
