@@ -13,15 +13,13 @@ NSString *dbName = @"db.sqlite";
 
 @implementation DatabaseHelper
 
-@synthesize database;
-
 -(sqlite3 *)database {
     if (databaseInstance == NULL) {
         sqlite3 *newDbConection;
         
         NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
         NSString *documentsDirectory = [paths objectAtIndex:0];
-        NSString *path = [documentsDirectory stringByAppendingPathComponent:@"Instabus.sqlite"];
+        NSString *path = [documentsDirectory stringByAppendingPathComponent:dbName];
         if (sqlite3_open([path UTF8String], &newDbConection) == SQLITE_OK){
             NSLog(@"Baza uspešno odprta");
             databaseInstance = newDbConection;
@@ -34,6 +32,9 @@ NSString *dbName = @"db.sqlite";
     return databaseInstance;
 }
 
+/**
+ * Designated initializer
+ */
 - (id) initWithDatabaseName:(NSString *)databaseName {
     self = [super init];
     if ([databaseName isKindOfClass:[NSString class]] ) {
@@ -52,7 +53,7 @@ NSString *dbName = @"db.sqlite";
     
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
-    NSString *path = [documentsDirectory stringByAppendingPathComponent:@"Instabus.sqlite"];
+    NSString *path = [documentsDirectory stringByAppendingPathComponent:dbName];
     
     
     sqlite3_open([path UTF8String], &db);

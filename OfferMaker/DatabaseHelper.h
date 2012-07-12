@@ -11,8 +11,6 @@
 
 @interface DatabaseHelper : NSObject
 
-@property sqlite3 *database;
-
 - (id) initWithDatabaseName:(NSString *) databaseName;
 
 - (NSArray *) rawQuery:(NSString *)text;
