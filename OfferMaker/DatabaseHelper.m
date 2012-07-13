@@ -13,11 +13,15 @@
     NSString *dbName;
 }
 
+/**
+ * Odpre povezavo z bazo
+ */
 -(BOOL)openDatabaseConnection {
     if (db == nil) {
         sqlite3 *newDbConection;
         
-        NSString *path = [[NSBundle mainBundle] pathForResource:@"Instabus" ofType:@"sqlite"];
+        NSString *dbFilename = [self getDatabaseFilename:dbName];
+        NSString *path = [[NSBundle mainBundle] pathForResource:dbFilename ofType:@"sqlite"];
         if (sqlite3_open([path UTF8String], &newDbConection) == SQLITE_OK){
             NSLog(@"Baza uspešno odprta");
             db = newDbConection;
@@ -30,6 +34,17 @@
         }
     }
     return YES;
+}
+
+/**
+ * Preveri ali je ime baze v formatu name.sqlite ali name in vrne ime datoteke brez končnice
+ */
+-(NSString *)getDatabaseFilename:(NSString *) filename {
+    NSRange range = [filename rangeOfString:@"."];
+    if (range.location == NSNotFound) {
+        return filename;
+    }
+    return [filename substringToIndex:range.location];
 }
 
 /**
@@ -61,28 +76,29 @@
     //Pregledamo vsako vrstico in stolpec v vrstici
     while (sqlite3_step(stmt) == SQLITE_ROW) {
         int columnLength = sqlite3_column_count(stmt);
-        NSLog(@"columnLength = %i", columnLength);
         
         //Pripravimo array v katerega bomo zapisovali prebrane vrednosti stolpca
         NSMutableDictionary *columnItems = [[NSMutableDictionary alloc]initWithCapacity:columnLength];
         
         // Dodamo imena stolpcev v array
         [records addObject:[columnItems copy]];
-        NSLog(@"step");
+
         for (int i = 0; i < columnLength; i++) {
-            NSLog(@"SQLite column count %i", i);
             
             NSString *columnName = [NSString stringWithUTF8String:(char *)sqlite3_column_name(stmt, i)];
             
             switch (sqlite3_column_type(stmt, i)) {
                 case SQLITE_INTEGER:
                     [columnItems setObject:[NSNumber numberWithInt:sqlite3_column_int(stmt, i)] forKey:columnName];
+                    NSLog(@"%@",[NSString stringWithFormat:@"%@ %i", columnName, sqlite3_column_int(stmt, i)]);
                     break;
                 case SQLITE_FLOAT:
                     [columnItems setObject:[NSNumber numberWithFloat:sqlite3_column_double(stmt, i)] forKey:columnName];
+                    NSLog(@"%@",[NSString stringWithFormat:@"%@ %d", columnName, sqlite3_column_double(stmt, i)]);
                     break;
                 case SQLITE_TEXT:
                     [columnItems setObject:[NSString stringWithUTF8String:(char *)sqlite3_column_text(stmt, i)] forKey:columnName];
+                    NSLog(@"%@",[NSString stringWithFormat:@"%@ %@", columnName, [NSString stringWithUTF8String:(char *)sqlite3_column_text(stmt, i)]]);
                     break;
                 case SQLITE_BLOB:
                     // TODO ugotoviti kako dodati BLOB

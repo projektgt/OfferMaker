@@ -19,7 +19,7 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
-    DatabaseHelper *dbHelper = [[DatabaseHelper alloc]initWithDatabaseName:@"instabus.sqlite"];
+    DatabaseHelper *dbHelper = [[DatabaseHelper alloc]initWithDatabaseName:@"instabus"];
     [dbHelper rawQuery:@"SELECT * FROM tZone"];
 }
 
