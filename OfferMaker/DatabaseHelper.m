@@ -17,9 +17,7 @@
     if (db == nil) {
         sqlite3 *newDbConection;
         
-        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-        NSString *documentsDirectory = [paths objectAtIndex:0];
-        NSString *path = [documentsDirectory stringByAppendingPathComponent:dbName];
+        NSString *path = [[NSBundle mainBundle] pathForResource:@"Instabus" ofType:@"sqlite"];
         if (sqlite3_open([path UTF8String], &newDbConection) == SQLITE_OK){
             NSLog(@"Baza uspešno odprta");
             db = newDbConection;

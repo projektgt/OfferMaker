@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		24347A4515A9D8FA000BB9F8 /* DatabaseHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 24347A4415A9D8FA000BB9F8 /* DatabaseHelper.m */; };
 		24347A4715A9DE86000BB9F8 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 24347A4615A9DE86000BB9F8 /* libsqlite3.dylib */; };
+		2492BE9B15B035BF00D4E9B0 /* Instabus.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 2492BE9A15B035BF00D4E9B0 /* Instabus.sqlite */; };
 		24C1FB601591136D008775E9 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 24C1FB5F1591136D008775E9 /* UIKit.framework */; };
 		24C1FB621591136D008775E9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 24C1FB611591136D008775E9 /* Foundation.framework */; };
 		24C1FB641591136D008775E9 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 24C1FB631591136D008775E9 /* CoreGraphics.framework */; };
@@ -21,10 +22,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		24347A4215A9D718000BB9F8 /* Instabus.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = Instabus.sqlite; sourceTree = "<group>"; };
 		24347A4315A9D8FA000BB9F8 /* DatabaseHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DatabaseHelper.h; sourceTree = "<group>"; };
 		24347A4415A9D8FA000BB9F8 /* DatabaseHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DatabaseHelper.m; sourceTree = "<group>"; };
 		24347A4615A9DE86000BB9F8 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
+		2492BE9A15B035BF00D4E9B0 /* Instabus.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = Instabus.sqlite; sourceTree = "<group>"; };
 		24C1FB5B1591136D008775E9 /* OfferMaker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OfferMaker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		24C1FB5F1591136D008775E9 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		24C1FB611591136D008775E9 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -56,17 +57,10 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		24347A4015A9D67E000BB9F8 /* Resources */ = {
-			isa = PBXGroup;
-			children = (
-				24347A4215A9D718000BB9F8 /* Instabus.sqlite */,
-			);
-			name = Resources;
-			sourceTree = "<group>";
-		};
 		24C1FB501591136D008775E9 = {
 			isa = PBXGroup;
 			children = (
+				2492BE9A15B035BF00D4E9B0 /* Instabus.sqlite */,
 				24347A4615A9DE86000BB9F8 /* libsqlite3.dylib */,
 				24C1FB651591136D008775E9 /* OfferMaker */,
 				24C1FB5E1591136D008775E9 /* Frameworks */,
@@ -103,7 +97,6 @@
 				24C1FB781591136D008775E9 /* ViewController.m */,
 				24347A4315A9D8FA000BB9F8 /* DatabaseHelper.h */,
 				24347A4415A9D8FA000BB9F8 /* DatabaseHelper.m */,
-				24347A4015A9D67E000BB9F8 /* Resources */,
 				24C1FB661591136D008775E9 /* Supporting Files */,
 			);
 			path = OfferMaker;
@@ -173,6 +166,7 @@
 				24C1FB6A1591136D008775E9 /* InfoPlist.strings in Resources */,
 				24C1FB731591136D008775E9 /* MainStoryboard_iPhone.storyboard in Resources */,
 				24C1FB761591136D008775E9 /* MainStoryboard_iPad.storyboard in Resources */,
+				2492BE9B15B035BF00D4E9B0 /* Instabus.sqlite in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
