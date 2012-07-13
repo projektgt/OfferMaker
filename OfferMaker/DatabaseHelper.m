@@ -8,14 +8,6 @@
 
 #import "DatabaseHelper.h"
 
-enum errorCodes {
-	kDBNotExists,
-	kDBFailAtOpen, 
-	kDBFailAtCreate,
-	kDBErrorQuery,
-	kDBFailAtClose
-};
-
 @implementation DatabaseHelper {
     sqlite3 *db;
     NSString *dbName;
