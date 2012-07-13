@@ -20,7 +20,7 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
     DatabaseHelper *dbHelper = [[DatabaseHelper alloc]initWithDatabaseName:@"instabus"];
-    [dbHelper rawQuery:@"SELECT * FROM tZone"];
+    [dbHelper rawQuery:@"SELECT ID, ZoneNameSl FROM tZone WHERE ID > 10"];
 }
 
 - (void)viewDidUnload
