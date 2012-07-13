@@ -8,6 +8,14 @@
 
 #import "DatabaseHelper.h"
 
+enum errorCodes {
+	kDBNotExists,
+	kDBFailAtOpen, 
+	kDBFailAtCreate,
+	kDBErrorQuery,
+	kDBFailAtClose
+};
+
 @implementation DatabaseHelper {
     sqlite3 *db;
     NSString *dbName;
@@ -25,7 +33,8 @@
             db = newDbConection;
             return YES;
         } else {
-            NSLog(@"Problem pri odpiranju baze");
+            NSString *errorString = [NSString stringWithCString:sqlite3_errmsg(db) encoding:NSUTF8StringEncoding];
+            NSLog(@"Povezava z bazo ni uspela: %@", errorString);
             db = nil;
             return NO;
         }
@@ -49,49 +58,43 @@
 
     sqlite3_stmt *stmt = nil;
     
-    const char *sqlStatement = [text cStringUsingEncoding:NSUTF8StringEncoding];
-    
     //Odpiranje baze
     if (![ self openDatabaseConnection]) {
-        NSLog(@"Ni povezave z bazo, prekinjam metodo!");
         return nil;
     }
     
     //Pripravimo SQL stavek
-    if (sqlite3_prepare_v2(db, sqlStatement, 1, &stmt, NULL) == NO) {
-        NSLog(@"SQLite prepare ni uspel!");
+    if (sqlite3_prepare_v2(db, [text UTF8String], -1, &stmt, NULL) == SQLITE_ERROR) {
+        NSString *errorString = [NSString stringWithCString:sqlite3_errmsg(db) encoding:NSUTF8StringEncoding];
+		NSLog(@"Napaka pri prepare: %@", errorString);
         return nil;
     }
     
-    
-    int columnLength = sqlite3_column_count(stmt);
-    //Pripravimo array v katerega bomo zapisovali prebrane vrednosti stolpca
-    NSMutableArray *columnItems = [[NSMutableArray alloc]initWithCapacity:columnLength];
-    
-    // Preberemo imena stolpcev
-    for (int i = 0; i < columnLength; i++) {
-        [columnItems addObject:[NSString stringWithUTF8String:(char *)sqlite3_column_name(stmt, i)]];
-        NSLog((NSString *)[columnItems objectAtIndex:i]);
-    }
-    
-    // Dodamo imena stolpcev v array
-    [records addObject:[columnItems copy]];
-    
     //Pregledamo vsako vrstico in stolpec v vrstici
     while (sqlite3_step(stmt) == SQLITE_ROW) {
-        // Počistimo array v katerega bomo zapisovali vrednosti stolpcev
-        [columnItems removeAllObjects];
+        int columnLength = sqlite3_column_count(stmt);
+        NSLog(@"columnLength = %i", columnLength);
+        
+        //Pripravimo array v katerega bomo zapisovali prebrane vrednosti stolpca
+        NSMutableDictionary *columnItems = [[NSMutableDictionary alloc]initWithCapacity:columnLength];
+        
+        // Dodamo imena stolpcev v array
+        [records addObject:[columnItems copy]];
+        NSLog(@"step");
         for (int i = 0; i < columnLength; i++) {
             NSLog(@"SQLite column count %i", i);
+            
+            NSString *columnName = [NSString stringWithUTF8String:(char *)sqlite3_column_name(stmt, i)];
+            
             switch (sqlite3_column_type(stmt, i)) {
                 case SQLITE_INTEGER:
-                    [columnItems addObject:[NSNumber numberWithInt:sqlite3_column_int(stmt, i)]];
+                    [columnItems setObject:[NSNumber numberWithInt:sqlite3_column_int(stmt, i)] forKey:columnName];
                     break;
                 case SQLITE_FLOAT:
-                    [columnItems addObject:[NSNumber numberWithFloat:sqlite3_column_double(stmt, i)]];
+                    [columnItems setObject:[NSNumber numberWithFloat:sqlite3_column_double(stmt, i)] forKey:columnName];
                     break;
                 case SQLITE_TEXT:
-                    [columnItems addObject:[NSString stringWithUTF8String:(char *)sqlite3_column_text(stmt, i)]];
+                    [columnItems setObject:[NSString stringWithUTF8String:(char *)sqlite3_column_text(stmt, i)] forKey:columnName];
                     break;
                 case SQLITE_BLOB:
                     // TODO ugotoviti kako dodati BLOB
@@ -107,9 +110,6 @@
         // Dodamo immutable kopijo vrednosti stolpcev v array
         [records addObject:[columnItems copy]];
     }
-    
-    // Pomagamo ARC-u da bo prej odstranil iz spomina??
-    columnItems = nil;
     
     sqlite3_finalize(stmt);
     sqlite3_close(db);
