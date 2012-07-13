@@ -39,9 +39,7 @@
  */
 - (id) initWithDatabaseName:(NSString *)databaseName {
     self = [super init];
-    if ([databaseName isKindOfClass:[NSString class]] ) {
-        dbName = databaseName;
-    }
+    dbName = databaseName;
     return self;
 }
 
@@ -58,7 +56,7 @@
     //Pripravimo SQL stavek
     if (sqlite3_prepare_v2(db, [text UTF8String], -1, &stmt, NULL) == SQLITE_ERROR) {
         NSString *errorString = [NSString stringWithCString:sqlite3_errmsg(db) encoding:NSUTF8StringEncoding];
-		NSLog(@"Napaka pri prepare: %@", errorString);
+		NSLog(@"Napaka pri sqlite3_prepare_v2(): %@", errorString);
         return nil;
     }
     
