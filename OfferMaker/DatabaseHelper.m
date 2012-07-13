@@ -22,6 +22,7 @@
         
         NSString *dbFilename = [self getDatabaseFilename:dbName];
         NSString *path = [[NSBundle mainBundle] pathForResource:dbFilename ofType:@"sqlite"];
+        // TODO sqlite3_open lahko zamenjamo s sqlite3_open_v2, ki pove ali ustvari novo bazo ali odpre obstoječo
         if (sqlite3_open([path UTF8String], &newDbConection) == SQLITE_OK){
             NSLog(@"Baza uspešno odprta");
             db = newDbConection;
@@ -104,7 +105,7 @@
                     // TODO ugotoviti kako dodati BLOB
                     break;
                 case SQLITE_NULL:
-                    // TODO dodati v array
+                    [columnItems setObject:[NSNull null] forKey:columnName];
                     break;
                 default:
                     NSLog(@"Vrnjena vrednost ne ustreza standardnim!");
@@ -119,5 +120,31 @@
     sqlite3_close(db);
     
     return [records copy];
+}
+
+- (BOOL) execSQL:(NSString *)text {
+    
+    sqlite3_stmt *stmt = nil;
+    
+    //Odpiranje baze
+    if (![ self openDatabaseConnection]) {
+        return NO;
+    }
+    
+    //Pripravimo SQL stavek
+    if (sqlite3_prepare_v2(db, [text UTF8String], -1, &stmt, NULL) == SQLITE_ERROR) {
+        NSString *errorString = [NSString stringWithCString:sqlite3_errmsg(db) encoding:NSUTF8StringEncoding];
+		NSLog(@"Napaka pri sqlite3_prepare_v2(): %@", errorString);
+        return NO;
+    }
+    
+    if (sqlite3_step(stmt) == SQLITE_ERROR) {
+        NSString *errorString = [NSString stringWithCString:sqlite3_errmsg(db) encoding:NSUTF8StringEncoding];
+		NSLog(@"Napaka pri sqlite3_step(): %@", errorString);
+        return NO;
+    }
+    sqlite3_finalize(stmt);
+    sqlite3_close(db);
+    return YES;
 }
 @end

@@ -14,5 +14,6 @@
 - (id) initWithDatabaseName:(NSString *) databaseName;
 
 - (NSArray *) rawQuery:(NSString *)text;
+- (BOOL) execSQL:(NSString *)text;
 
 @end
